@@ -1,8 +1,20 @@
 //business logic
-function Player(name, turnTotal, score) {
+function Player(name) {
   this.name = name;
-  this.turnTotal = turnTotal;
-  this.score = score;
+  this.turnTotal = 0;
+  this.score = 0;
+};
+
+Player.prototype.methodName = function () {
+  return this.turnTotal + this.score;
+};
+
+function rollDice() {
+  return Math.floor(Math.random() * (5 - 1 + 1)) + 1;
+};
+
+function dice(diceNumber) {
+  $("#dice p").text(diceNumber);
 };
 
 function disablePlayer1() {
@@ -38,13 +50,31 @@ $(function() {
   });
 
   $("button#roll1").click(function() {
-    $(".player1-turn-total").text("1");
-    disablePlayer1();
+    var diceNumber = rollDice();
+    if (diceNumber === 1) {
+      dice(diceNumber);
+      $(".player1-turn-total").text("0");
+      player1.turnTotal = 0;
+      disablePlayer1();
+    } else {
+      dice(diceNumber);
+      player1.turnTotal += diceNumber;
+      $(".player1-turn-total").text(player1.turnTotal);
+    }
   });
 
   $("button#roll2").click(function() {
-    $(".player2-turn-total").text("1");
-    disablePlayer2();
+    var diceNumber = rollDice();
+    if (diceNumber === 1) {
+      dice(diceNumber);
+      $(".player2-turn-total").text("0");
+      player2.turnTotal = 0;
+      disablePlayer2();
+    } else {
+      dice(diceNumber);
+      player2.turnTotal += diceNumber;
+      $(".player2-turn-total").text(player2.turnTotal);
+    }
   });
 
   $("button#reset-game").click(function() {
