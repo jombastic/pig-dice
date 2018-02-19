@@ -8,6 +8,61 @@
   <body>
     <div class="container">
       <h1>Welcome to pig dice game</h1>
+
+      <form id="player-entry">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="player1-name">Player 1 Name:</label>
+              <input type="text" class="form-control" id="player1-name" />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group text-center">
+              <button type="submit" class="btn">Play!</button>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="player2-name">Player 2 Name:</label>
+              <input type="text" class="form-control" id="player2-name" />
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div id="game">
+        <div class="row">
+          <div class="col-md-4">
+            <div id="player1">
+              <h2 class="player1-name"></h2>
+              <p>Total score: <span class="player1-score">0</span></p>
+              <p>Turn total: <span class="player1-turn-total">0</span></p>
+              <button type="button" class="btn" id="row1">Roll Dice</button>
+              <button type="button" class="btn" id="hold1">Hold</button>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div id="dice">
+              <p></p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div id="player2">
+              <h2 class="player2-name"></h2>
+              <p>Total score: <span class="player2-score">0</span></p>
+              <p>Turn total: <span class="player2-turn-total">0</span></p>
+              <button type="button" class="btn" id="rol2">Roll Dice</button>
+              <button type="button" class="btn" id="hold2">Hold</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="reset-or-restart" class="text-center">
+          <button type="button" class="btn btn-warning" id="restart-game">Restart game</button>
+          <button type="button" class="btn btn-danger" id="reset-game">Reset game</button>
+        </div>
+      </div>
     </div>
 
     <script src="js/jquery-3.3.1.js"></script>
