@@ -44,6 +44,21 @@ function disablePlayer2() {
   $("#player2").find("button").prop("disabled", true);
 };
 
+function disablePlayers() {
+  $("#player1").find("button").prop("disabled", true);
+  $("#player2").find("button").prop("disabled", true);
+};
+
+function endGame() {
+  if (players[0].score >= 100) {
+    alert(players[0].name + " wins!");
+    disablePlayers();
+  } else if (players[1].score >= 100) {
+    alert(players[1].name + " wins!");
+    disablePlayers();
+  }
+};
+
 var player1;
 var player2;
 var players = [];
@@ -99,6 +114,7 @@ $(function() {
     } else if (id === "2") {
       disablePlayer2();
     }
+    endGame();
   });
 
   $("button#restart-game").click(function() {
