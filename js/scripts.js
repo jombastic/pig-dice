@@ -5,9 +5,14 @@ function Player(name) {
   this.score = 0;
 };
 
-Player.prototype.totalScore = function () {
+Player.prototype.totalScore = function() {
   this.score += this.turnTotal;
   return this.score;
+};
+
+Player.prototype.resetPlayer = function() {
+  this.turnTotal = 0;
+  this.score = 0;
 };
 
 function rollDice() {
@@ -16,6 +21,17 @@ function rollDice() {
 
 function dice(diceNumber) {
   $("#dice p").text(diceNumber);
+};
+
+function restartGame() {
+  players.forEach(function(player) {
+    player.resetPlayer();
+  });
+  $(".player1-score").text("0");
+  $(".player1-turn-total").text("0");
+  $(".player2-score").text("0");
+  $(".player2-turn-total").text("0");
+  disablePlayer2();
 };
 
 function disablePlayer1() {
@@ -53,13 +69,13 @@ $(function() {
   });
 
   $("button.roll").click(function(event) {
-    var id = $(event.currentTarget).val();
-    console.log(id);
+    var id = $(event.currentTarget).val(); //you can also use 'this' as an alternative
+    var i = id - 1;
     var diceNumber = rollDice();
     if (diceNumber === 1) {
       dice(diceNumber);
       $(".player" + id + "-turn-total").text("0");
-      players[id].turnTotal = 0;
+      players[i].turnTotal = 0;
       if (id === "1") {
         disablePlayer1();
       } else if (id === "2") {
@@ -67,22 +83,26 @@ $(function() {
       }
     } else {
       dice(diceNumber);
-      players[id].turnTotal += diceNumber;
-      $(".player" + id + "-turn-total").text(players[id].turnTotal);
+      players[i].turnTotal += diceNumber;
+      $(".player" + id + "-turn-total").text(players[i].turnTotal);
     }
   });
 
   $("button.hold").click(function(event) {
-    var id = $(event.currentTarget).val();
-    console.log(id);
-    $(".player" + id + "-score").text(players[id].totalScore());
-    players[id].turnTotal = 0;
+    var id = $(event.currentTarget).val(); //you can also use 'this' as an alternative
+    var i = id - 1;
+    $(".player" + id + "-score").text(players[i].totalScore());
+    players[i].turnTotal = 0;
     $(".player" + id + "-turn-total").text("0");
     if (id === "1") {
       disablePlayer1();
     } else if (id === "2") {
       disablePlayer2();
     }
+  });
+
+  $("button#restart-game").click(function() {
+    restartGame();
   });
 
   $("button#reset-game").click(function() {
