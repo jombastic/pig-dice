@@ -30,6 +30,7 @@ function disablePlayer2() {
 
 var player1;
 var player2;
+var players = [];
 
 //user interface logic
 $(function() {
@@ -43,6 +44,7 @@ $(function() {
     var player2Name = $("input#player2-name").val();
     player1 = new Player(player1Name);
     player2 = new Player(player2Name);
+    players.push(player1, player2);
 
     $(".player1-name").text(player1.name);
     $(".player2-name").text(player2.name);
@@ -50,46 +52,37 @@ $(function() {
     $("#player2").find("button").prop("disabled", true);
   });
 
-  $("button#roll1").click(function() {
+  $("button.roll").click(function(event) {
+    var id = $(event.currentTarget).val();
+    console.log(id);
     var diceNumber = rollDice();
     if (diceNumber === 1) {
       dice(diceNumber);
-      $(".player1-turn-total").text("0");
-      player1.turnTotal = 0;
+      $(".player" + id + "-turn-total").text("0");
+      players[id].turnTotal = 0;
+      if (id === "1") {
+        disablePlayer1();
+      } else if (id === "2") {
+        disablePlayer2();
+      }
+    } else {
+      dice(diceNumber);
+      players[id].turnTotal += diceNumber;
+      $(".player" + id + "-turn-total").text(players[id].turnTotal);
+    }
+  });
+
+  $("button.hold").click(function(event) {
+    var id = $(event.currentTarget).val();
+    console.log(id);
+    $(".player" + id + "-score").text(players[id].totalScore());
+    players[id].turnTotal = 0;
+    $(".player" + id + "-turn-total").text("0");
+    if (id === "1") {
       disablePlayer1();
-    } else {
-      dice(diceNumber);
-      player1.turnTotal += diceNumber;
-      $(".player1-turn-total").text(player1.turnTotal);
-    }
-  });
-
-  $("button#roll2").click(function() {
-    var diceNumber = rollDice();
-    if (diceNumber === 1) {
-      dice(diceNumber);
-      $(".player2-turn-total").text("0");
-      player2.turnTotal = 0;
+    } else if (id === "2") {
       disablePlayer2();
-    } else {
-      dice(diceNumber);
-      player2.turnTotal += diceNumber;
-      $(".player2-turn-total").text(player2.turnTotal);
     }
-  });
-
-  $("button#hold1").click(function() {
-    $(".player1-score").text(player1.totalScore());
-    player1.turnTotal = 0;
-    $(".player1-turn-total").text("0");
-    disablePlayer1();
-  });
-
-  $("button#hold2").click(function() {
-    $(".player2-score").text(player2.totalScore());
-    player2.turnTotal = 0;
-    $(".player2-turn-total").text("0");
-    disablePlayer2();
   });
 
   $("button#reset-game").click(function() {
