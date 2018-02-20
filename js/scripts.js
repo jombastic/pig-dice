@@ -5,12 +5,13 @@ function Player(name) {
   this.score = 0;
 };
 
-Player.prototype.methodName = function () {
-  return this.turnTotal + this.score;
+Player.prototype.totalScore = function () {
+  this.score += this.turnTotal;
+  return this.score;
 };
 
 function rollDice() {
-  return Math.floor(Math.random() * (5 - 1 + 1)) + 1;
+  return Math.floor(Math.random() * (6 - 1 + 1)) + 1;
 };
 
 function dice(diceNumber) {
@@ -75,6 +76,20 @@ $(function() {
       player2.turnTotal += diceNumber;
       $(".player2-turn-total").text(player2.turnTotal);
     }
+  });
+
+  $("button#hold1").click(function() {
+    $(".player1-score").text(player1.totalScore());
+    player1.turnTotal = 0;
+    $(".player1-turn-total").text("0");
+    disablePlayer1();
+  });
+
+  $("button#hold2").click(function() {
+    $(".player2-score").text(player2.totalScore());
+    player2.turnTotal = 0;
+    $(".player2-turn-total").text("0");
+    disablePlayer2();
   });
 
   $("button#reset-game").click(function() {
