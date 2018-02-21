@@ -49,6 +49,14 @@ function disablePlayers() {
   $("#player2").find("button").prop("disabled", true);
 };
 
+function giveTurn(id) {
+  if (id === "1") {
+    disablePlayer1();
+  } else if (id === "2") {
+    disablePlayer2();
+  }
+};
+
 function endGame() {
   if (players[0].score >= 100) {
     alert(players[0].name + " wins!");
@@ -111,11 +119,7 @@ $(function() {
       if (die1 === 1) {
         $(".player" + id + "-turn-total").text("0");
         players[i].turnTotal = 0;
-        if (id === "1") {
-          disablePlayer1();
-        } else if (id === "2") {
-          disablePlayer2();
-        }
+        giveTurn(id);
       } else {
         players[i].turnTotal += die1;
         $(".player" + id + "-turn-total").text(players[i].turnTotal);
@@ -124,11 +128,12 @@ $(function() {
       if ((die1 === 1) || (die2 === 1)) {
         $(".player" + id + "-turn-total").text("0");
         players[i].turnTotal = 0;
-        if (id === "1") {
-          disablePlayer1();
-        } else if (id === "2") {
-          disablePlayer2();
-        }
+        giveTurn(id);
+      } else if ((die1 === 1) && (die2 === 1)) {
+        $(".player" + id + "-turn-total").text("0");
+        players[i].turnTotal = 0;
+        players[i].score = 0;
+        giveTurn(id);
       }
     }
 
