@@ -78,6 +78,27 @@ function restartGame() {
   disablePlayer2();
 };
 
+function vsComputer1Die() {
+  for (var i = 0; i < 2; i++) {
+    rollDice(numberOfDice);
+    showDice(numberOfDice);
+    if (die1 === 1) {
+      $(".player2-turn-total").text("0");
+      players[1].turnTotal = 0;
+      disablePlayer2();
+      break;
+    } else {
+      players[1].turnTotal += die1;
+      $(".player2-turn-total").text(players[1].turnTotal);
+    }
+    $(".player2-score").text(players[1].totalScore());
+    players[1].turnTotal = 0;
+    $(".player2-turn-total").text("0");
+    disablePlayer2();
+    endGame();
+  }
+};
+
 var player1;
 var player2;
 var players = [];
@@ -119,32 +140,60 @@ $(function() {
     showDice(numberOfDice);
     if (numberOfDice === '1') {
       if (die1 === 1) {
-        $(".player" + id + "-turn-total").text("0");
-        players[i].turnTotal = 0;
-        giveTurn(id);
+        if (playerType === 'player') {
+          $(".player" + id + "-turn-total").text("0");
+          players[i].turnTotal = 0;
+          giveTurn(id);
+        } else if (playerType === 'computer') {
+          $(".player1-turn-total").text("0");
+          players[0].turnTotal = 0;
+          disablePlayer1();
+          vsComputer1Die();
+        }
       } else {
-        players[i].turnTotal += die1;
-        $(".player" + id + "-turn-total").text(players[i].turnTotal);
+        if (playerType === 'player') {
+          players[i].turnTotal += die1;
+          $(".player" + id + "-turn-total").text(players[i].turnTotal);
+        } else if (playerType === 'computer') {
+          players[0].turnTotal += die1;
+          $(".player1-turn-total").text(players[0].turnTotal);
+        }
       }
     } else if (numberOfDice === '2') {
       if ((die1 === 1) || (die2 === 1)) {
-        $(".player" + id + "-turn-total").text("0");
-        players[i].turnTotal = 0;
-        giveTurn(id);
+        if (playerType === 'player') {
+          $(".player" + id + "-turn-total").text("0");
+          players[i].turnTotal = 0;
+          giveTurn(id);
+        } else if (playerType === 'computer') {
+
+        }
       } else if ((die1 === 1) && (die2 === 1)) {
-        $(".player" + id + "-turn-total").text("0");
-        players[i].turnTotal = 0;
-        players[i].score = 0;
-        giveTurn(id);
+        if (playerType === 'player') {
+          $(".player" + id + "-turn-total").text("0");
+          players[i].turnTotal = 0;
+          players[i].score = 0;
+          giveTurn(id);
+        } else if (playerType === 'computer') {
+
+        }
       } else if (die1 === die2) {
-        players[i].turnTotal += diceSum;
-        $(".player" + id + "-turn-total").text(players[i].turnTotal);
-        $("#player" + id).find("button.hold").prop("disabled", true);
-        alert("You scored a double! Now you must roll again.")
+        if (playerType === 'player') {
+          players[i].turnTotal += diceSum;
+          $(".player" + id + "-turn-total").text(players[i].turnTotal);
+          $("#player" + id).find("button.hold").prop("disabled", true);
+          alert("You scored a double! Now you must roll again.");
+        } else if (playerType === 'computer') {
+
+        }
       } else {
-        players[i].turnTotal += diceSum;
-        $(".player" + id + "-turn-total").text(players[i].turnTotal);
-        $("#player" + id).find("button.hold").prop("disabled", false);
+        if (playerType === 'player') {
+          players[i].turnTotal += diceSum;
+          $(".player" + id + "-turn-total").text(players[i].turnTotal);
+          $("#player" + id).find("button.hold").prop("disabled", false);
+        } else if (playerType === 'computer') {
+
+        }
       }
     }
   });
