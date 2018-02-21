@@ -135,12 +135,16 @@ $(function() {
         players[i].score = 0;
         giveTurn(id);
       } else if (die1 === die2) {
-        $(".player" + id + "-turn-total").text(diceSum);
+        players[i].turnTotal += diceSum;
+        $(".player" + id + "-turn-total").text(players[i].turnTotal);
         $("#player" + id).find("button.hold").prop("disabled", true);
         alert("You scored a double! Now you must roll again.")
+      } else {
+        players[i].turnTotal += diceSum;
+        $(".player" + id + "-turn-total").text(players[i].turnTotal);
+        $("#player" + id).find("button.hold").prop("disabled", false);
       }
     }
-
   });
 
   $("button.hold").click(function(event) {
@@ -149,11 +153,7 @@ $(function() {
     $(".player" + id + "-score").text(players[i].totalScore());
     players[i].turnTotal = 0;
     $(".player" + id + "-turn-total").text("0");
-    if (id === "1") {
-      disablePlayer1();
-    } else if (id === "2") {
-      disablePlayer2();
-    }
+    giveTurn(id);
     endGame();
   });
 
