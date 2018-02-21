@@ -87,6 +87,7 @@ var die2;
 var diceSum;
 var id;
 var i;
+var playerType;
 
 //user interface logic
 $(function() {
@@ -102,6 +103,7 @@ $(function() {
     player2 = new Player(player2Name);
     players.push(player1, player2);
 
+    playerType = $("input:radio[name=player-type]:checked").val();
     numberOfDice = $("input:radio[name=number-of-dice]:checked").val();
 
     $(".player1-name").text(player1.name);
