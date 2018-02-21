@@ -15,23 +15,23 @@ Player.prototype.resetPlayer = function() {
   this.score = 0;
 };
 
-function rollDice() {
-  return Math.floor(Math.random() * (6 - 1 + 1)) + 1;
+function rollDice(numberOfDice) {
+  if (numberOfDice === '1') {
+    die1 = Math.floor(Math.random() * (6 - 1 + 1)) + 1;
+  } else if (numberOfDice === '2') {
+    die1 = Math.floor(Math.random() * (6 - 1 + 1)) + 1;
+    die2 = Math.floor(Math.random() * (6 - 1 + 1)) + 1;
+    diceSum = die1 + die2;
+  }
 };
 
-function dice(diceNumber) {
-  $("#dice p").text(diceNumber);
-};
-
-function restartGame() {
-  players.forEach(function(player) {
-    player.resetPlayer();
-  });
-  $(".player1-score").text("0");
-  $(".player1-turn-total").text("0");
-  $(".player2-score").text("0");
-  $(".player2-turn-total").text("0");
-  disablePlayer2();
+function showDice(numberOfDice) {
+  if (numberOfDice === '1') {
+    $("p.die1").text(die1);
+  } else if (numberOfDice === '2') {
+    $("p.die1").text(die1);
+    $("p.die2").text(die2);
+  }
 };
 
 function disablePlayer1() {
@@ -59,9 +59,26 @@ function endGame() {
   }
 };
 
+function restartGame() {
+  players.forEach(function(player) {
+    player.resetPlayer();
+  });
+  $(".player1-score").text("0");
+  $(".player1-turn-total").text("0");
+  $(".player2-score").text("0");
+  $(".player2-turn-total").text("0");
+  disablePlayer2();
+};
+
 var player1;
 var player2;
 var players = [];
+var numberOfDice;
+var die1;
+var die2;
+var diceSum;
+var id;
+var i;
 
 //user interface logic
 $(function() {
@@ -77,6 +94,8 @@ $(function() {
     player2 = new Player(player2Name);
     players.push(player1, player2);
 
+    numberOfDice = $("input:radio[name=number-of-dice]:checked").val();
+
     $(".player1-name").text(player1.name);
     $(".player2-name").text(player2.name);
 
@@ -84,28 +103,40 @@ $(function() {
   });
 
   $("button.roll").click(function(event) {
-    var id = $(event.currentTarget).val(); //you can also use 'this' as an alternative
-    var i = id - 1;
-    var diceNumber = rollDice();
-    if (diceNumber === 1) {
-      dice(diceNumber);
-      $(".player" + id + "-turn-total").text("0");
-      players[i].turnTotal = 0;
-      if (id === "1") {
-        disablePlayer1();
-      } else if (id === "2") {
-        disablePlayer2();
+    id = $(event.currentTarget).val(); //you can also use 'this' as an alternative
+    i = id - 1;
+    rollDice(numberOfDice);
+    showDice(numberOfDice);
+    if (numberOfDice === '1') {
+      if (die1 === 1) {
+        $(".player" + id + "-turn-total").text("0");
+        players[i].turnTotal = 0;
+        if (id === "1") {
+          disablePlayer1();
+        } else if (id === "2") {
+          disablePlayer2();
+        }
+      } else {
+        players[i].turnTotal += die1;
+        $(".player" + id + "-turn-total").text(players[i].turnTotal);
       }
-    } else {
-      dice(diceNumber);
-      players[i].turnTotal += diceNumber;
-      $(".player" + id + "-turn-total").text(players[i].turnTotal);
+    } else if (numberOfDice === '2') {
+      if ((die1 === 1) || (die2 === 1)) {
+        $(".player" + id + "-turn-total").text("0");
+        players[i].turnTotal = 0;
+        if (id === "1") {
+          disablePlayer1();
+        } else if (id === "2") {
+          disablePlayer2();
+        }
+      }
     }
+
   });
 
   $("button.hold").click(function(event) {
-    var id = $(event.currentTarget).val(); //you can also use 'this' as an alternative
-    var i = id - 1;
+    id = $(event.currentTarget).val(); //you can also use 'this' as an alternative
+    i = id - 1;
     $(".player" + id + "-score").text(players[i].totalScore());
     players[i].turnTotal = 0;
     $(".player" + id + "-turn-total").text("0");
