@@ -134,6 +134,10 @@ $(function() {
         players[i].turnTotal = 0;
         players[i].score = 0;
         giveTurn(id);
+      } else if (die1 === die2) {
+        $(".player" + id + "-turn-total").text(diceSum);
+        $("#player" + id).find("button.hold").prop("disabled", true);
+        alert("You scored a double! Now you must roll again.")
       }
     }
 
