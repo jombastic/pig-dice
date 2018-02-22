@@ -78,7 +78,7 @@ function restartGame() {
   disablePlayer2();
 };
 
-function vsComputer1Die() {
+function vsComputer() {
   for (var i = 0; i < 2; i++) {
     rollDice(numberOfDice);
     showDice(numberOfDice);
@@ -94,8 +94,12 @@ function vsComputer1Die() {
     $(".player2-score").text(players[1].totalScore());
     players[1].turnTotal = 0;
     $(".player2-turn-total").text("0");
-    disablePlayer2();
-    endGame();
+    if (players[1].score >= 100) {
+      alert(players[1].name + " wins!");
+      disablePlayers();
+    } else {
+      disablePlayer2();
+    }
   }
 };
 
@@ -148,7 +152,7 @@ $(function() {
           $(".player1-turn-total").text("0");
           players[0].turnTotal = 0;
           disablePlayer1();
-          vsComputer1Die();
+          vsComputer();
         }
       } else {
         if (playerType === 'player') {
@@ -199,13 +203,26 @@ $(function() {
   });
 
   $("button.hold").click(function(event) {
-    id = $(event.currentTarget).val(); //you can also use 'this' as an alternative
-    i = id - 1;
-    $(".player" + id + "-score").text(players[i].totalScore());
-    players[i].turnTotal = 0;
-    $(".player" + id + "-turn-total").text("0");
-    giveTurn(id);
-    endGame();
+    if (playerType === 'player') {
+      id = $(event.currentTarget).val(); //you can also use 'this' as an alternative
+      i = id - 1;
+      $(".player" + id + "-score").text(players[i].totalScore());
+      players[i].turnTotal = 0;
+      $(".player" + id + "-turn-total").text("0");
+      giveTurn(id);
+      endGame();
+    } else if (playerType === 'computer') {
+      $(".player1-score").text(players[0].totalScore());
+      players[0].turnTotal = 0;
+      $(".player1-turn-total").text("0");
+      if (players[0].score >= 100) {
+        alert(players[0].name + " wins");
+        disablePlayers();
+      } else {
+        disablePlayer1();
+        vsComputer();
+      }
+    }
   });
 
   $("button#restart-game").click(function() {
