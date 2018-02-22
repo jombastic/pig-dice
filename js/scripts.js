@@ -167,30 +167,36 @@ $(function() {
   $("form#player-entry").submit(function(event) {
     event.preventDefault();
 
-    $(this).hide();
-    $("#game").show();
-
     var player1Name = $("input#player1-name").val();
     var player2Name = $("input#player2-name").val();
-    player1 = new Player(player1Name);
-    player2 = new Player(player2Name);
-    players.push(player1, player2);
 
     playerType = $("input:radio[name=player-type]:checked").val();
     numberOfDice = $("input:radio[name=number-of-dice]:checked").val();
     difficulty = $("input:radio[name=difficulty]:checked").val();
 
-    $(".player1-name").text(player1.name);
-    if (!player2Name) {
-      player2.name = "Computer";
+    if (!player1Name && (playerType === 'computer')) {
+      alert("Please enter player 1 name!");
+    } else if (!player1Name || !player2Name && (playerType === 'player')) {
+      alert("Please enter the players names!");
+    } else if (playerType === 'computer') {
+      player1 = new Player(player1Name);
+      player2 = new Player('Computer');
+      players.push(player1, player2);
+      $(".player1-name").text(player1.name);
       $(".player2-name").text(player2.name);
-    } else {
+      $(this).hide();
+      $("#game").show();
+      $("#player2").find("button").prop("disabled", true);
+    } else if (playerType === 'player') {
+      player1 = new Player(player1Name);
+      player2 = new Player(player2Name);
+      players.push(player1, player2);
+      $(".player1-name").text(player1.name);
       $(".player2-name").text(player2.name);
+      $(this).hide();
+      $("#game").show();
+      $("#player2").find("button").prop("disabled", true);
     }
-
-    console.log(player2.name);
-
-    $("#player2").find("button").prop("disabled", true);
   });
 
   $("button.roll").click(function(event) {
