@@ -138,9 +138,20 @@ var diceSum;
 var id;
 var i;
 var playerType;
+var mode;
 
 //user interface logic
 $(function() {
+  $("input:radio[name=player-type]").click(function() {
+    if ($("input:radio[name=player-type]:checked").val() === 'computer') {
+      $("#mode").show();
+      $("input#player2-name").prop("disabled", true);
+    } else {
+      $("#mode").hide();
+      $("input#player2-name").prop("disabled", false);
+    }
+  });
+
   $("form#player-entry").submit(function(event) {
     event.preventDefault();
 
@@ -155,9 +166,17 @@ $(function() {
 
     playerType = $("input:radio[name=player-type]:checked").val();
     numberOfDice = $("input:radio[name=number-of-dice]:checked").val();
+    mode = $("input:radio[name=difficulty]:checked").val();
 
     $(".player1-name").text(player1.name);
-    $(".player2-name").text(player2.name);
+    if (!player2Name) {
+      player2.name = "Computer";
+      $(".player2-name").text(player2.name);
+    } else {
+      $(".player2-name").text(player2.name);
+    }
+
+    console.log(player2.name);
 
     $("#player2").find("button").prop("disabled", true);
   });
