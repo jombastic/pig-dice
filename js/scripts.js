@@ -82,21 +82,46 @@ function vsComputer() {
   for (var i = 0; i < 2; i++) {
     rollDice(numberOfDice);
     showDice(numberOfDice);
-    if (die1 === 1) {
-      $(".player2-turn-total").text("0");
-      players[1].turnTotal = 0;
-      disablePlayer2();
-      break;
-    } else {
-      players[1].turnTotal += die1;
-      $(".player2-turn-total").text(players[1].turnTotal);
+    if (numberOfDice === '1') {
+      if (die1 === 1) {
+        $(".player2-turn-total").text("0");
+        players[1].turnTotal = 0;
+        disablePlayer2();
+        break;
+      } else {
+        players[1].turnTotal += die1;
+        $(".player2-turn-total").text(players[1].turnTotal);
+      }
+    } else if (numberOfDice === '2') {
+      if ((die1 === 1) || (die2 === 1)) {
+        $(".player2-turn-total").text("0");
+        players[1].turnTotal = 0;
+        disablePlayer2();
+        break;
+      } else if ((die1 === 1) && (die2 === 1)) {
+        $(".player2-turn-total").text("0");
+        players[1].turnTotal = 0;
+        players[1].score = 0;
+        disablePlayer2();
+        break;
+      } else if (die1 === die2) {
+        players[1].turnTotal += diceSum;
+        $(".player2-turn-total").text(players[1].turnTotal);
+        i = 0;
+      } else {
+        players[1].turnTotal += diceSum;
+        $(".player2-turn-total").text(players[1].turnTotal);
+        $("#player2").find("button.hold").prop("disabled", false);
+      }
     }
+
     $(".player2-score").text(players[1].totalScore());
     players[1].turnTotal = 0;
     $(".player2-turn-total").text("0");
     if (players[1].score >= 100) {
       alert(players[1].name + " wins!");
       disablePlayers();
+      break;
     } else {
       disablePlayer2();
     }
