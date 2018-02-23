@@ -219,7 +219,7 @@ $(function() {
       $("#one-die-rules").show();
     } else if (numberOfDice === '2') {
       $("p.die2").show();
-      $("#two-die-rules").show();
+      $("#two-dice-rules").show();
     }
   });
 
