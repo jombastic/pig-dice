@@ -131,13 +131,8 @@ function vsComputer() {
   $(".player2-score").text(players[1].totalScore());
   players[1].turnTotal = 0;
   $(".player2-turn-total").text(players[1].turnTotal);
-  if (players[1].score >= 100) {
-    alert(players[1].name + " wins!");
-    disablePlayers();
-    //break;
-  } else {
-    disablePlayer2();
-  }
+  disablePlayer2();
+  endGame();
 };
 
 function startGame(player1Name) {
@@ -262,8 +257,13 @@ $(function() {
       giveTurn(id);
       endGame();
     } else if (playerType === 'computer') {
-      disablePlayer1();
-      vsComputer();
+      if (players[0].score >= 100) {
+        alert(players[0].name + " wins");
+        disablePlayers();
+      } else {
+        disablePlayer1();
+        vsComputer();
+      }
     }
   });
 
