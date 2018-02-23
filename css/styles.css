@@ -1,4 +1,5 @@
 #game,
-#mode {
+#mode,
+.die2 {
   display: none;
 }

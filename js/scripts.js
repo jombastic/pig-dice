@@ -27,10 +27,13 @@ function rollDice(numberOfDice) {
 
 function showDice(numberOfDice) {
   if (numberOfDice === '1') {
-    $("p.die1").text(die1);
+    $("p.die1").html("<img src='img/dice/Dice" + die1 +
+    ".png' alt='number" + die1 + "' />");
   } else if (numberOfDice === '2') {
-    $("p.die1").text(die1);
-    $("p.die2").text(die2);
+    $("p.die1").html("<img src='img/dice/Dice" + die1 +
+    ".png' alt='number" + die1 + "' />");
+    $("p.die2").html("<img src='img/dice/Dice" + die2 +
+    ".png' alt='number" + die1 + "' />");
   }
 };
 
@@ -191,6 +194,10 @@ $(function() {
       player2 = new Player(player2Name);
       $(".player2-name").text(player2.name);
       players.push(player1, player2);
+    }
+
+    if (numberOfDice === '2') {
+      $(".die2").show();
     }
   });
 
