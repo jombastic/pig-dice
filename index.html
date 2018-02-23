@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great|Piedra" rel="stylesheet">
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="css/styles.css" rel="stylesheet" type="text/css" />
     <title>Pig dice</title>
   </head>
   <body>
     <div class="container">
-      <h1>Welcome to pig dice game</h1>
+      <h1 class="page-header text-center">Welcome to pig dice game<br />
+        <small>Oink Oink!</small>
+      </h1>
 
       <form id="player-entry">
         <div class="row">
@@ -19,15 +22,15 @@
           </div>
           <div class="col-md-4 text-center">
             <div class="form-group">
-              <label class="radio-inline">
+              <label class="radio-inline choose-dice label-underline">
                 <input type="radio" name="number-of-dice" value="1" checked="true" /> 1 Dice
               </label>
-              <label class="radio-inline">
+              <label class="radio-inline choose-dice">
                 <input type="radio" name="number-of-dice" value="2" /> 2 Dice
               </label>
             </div>
             <div class="form-group">
-              <button type="submit" class="btn">Play!</button>
+              <button type="submit" class="btn" id="play-button">Play!</button>
             </div>
           </div>
           <div class="col-md-4 text-right">
@@ -36,27 +39,25 @@
               <input type="text" class="form-control" id="player2-name" />
             </div>
             <div class="form-group">
-              <label class="radio-inline">
+              <label class="radio-inline computer-player label-underline">
                 <input type="radio" name="player-type" value="player" checked="true" /> Player
               </label>
-              <label class="radio-inline">
+              <label class="radio-inline computer-player">
                 <input type="radio" name="player-type" value="computer" /> Computer
               </label>
             </div>
             <div class="form-group" id="mode">
-              <label class="radio-inline">
+              <label class="radio-inline easy-hard label-underline">
                 <input type="radio" name="difficulty" value="easy" checked="true" /> Easy
               </label>
-              <label class="radio-inline">
+              <label class="radio-inline easy-hard">
                 <input type="radio" name="difficulty" value="hard" /> Hard
               </label>
             </div>
           </div>
         </div>
       </form>
-    </div>
 
-    <div class="container">
       <div id="game">
         <div class="row">
           <div class="col-md-4">
@@ -68,9 +69,11 @@
               <button type="button" class="btn hold" value="1">Hold</button>
             </div>
           </div>
-          <div class="col-md-4 text-center">
-            <p class="die1"><img src="img/dice/Dice6.png" alt="number 6" /></p>
-            <p class="die2"><img src="img/dice/Dice6.png" alt="number 6" /></p>
+          <div class="col-md-2">
+            <p class="die1"><img class="img-responsive" src="img/dice/Dice6.png" alt="number 6" /></p>
+          </div>
+          <div class="col-md-2">
+            <p class="die2"><img class="img-responsive" src="img/dice/Dice6.png" alt="number 6" /></p>
           </div>
           <div class="col-md-4">
             <div id="player2" class="text-right">
@@ -88,7 +91,31 @@
           <button type="button" class="btn btn-danger" id="reset-game">Reset game</button>
         </div>
       </div>
+
+      <div id="one-die-rules" class="well well-lg">
+        <h2>Rulles of the game:</h2>
+        <ul class="no_bullet">
+          <li>If the player rolls a 1, they score nothing and it becomes the next player's turn.</li>
+          <li>If the player rolls any other number, it is added to their turn total and the player's turn continues.</li>
+          <li>If a player chooses to "hold", their turn total is added to their score, and it becomes the next player's turn.</li>
+          <li>The first player to score 100 or more points wins.</li>
+        </ul>
+      </div>
+      <div id="two-dice-rules" class="well well-lg">
+        <h2>Rulles of the game:</h2>
+        <ul class="no_bullet">
+          <li>Two standard dice are rolled. If neither shows a 1, their sum is added to the turn total.</li>
+          <li>If a single 1 is rolled, the player scores nothing and the turn ends.</li>
+          <li>If two 1s are rolled, the player’s entire score is lost, and the turn ends.</li>
+          <li>If a double is rolled, the point total is added to the turn total as with any roll but the player is obligated to roll again.</li>
+          <li>The first player to score 100 or more points wins.</li>
+        </ul>
+      </div>
     </div>
+
+    <footer class="footer">
+      Created by <strong>Slavcho Mitrov</strong>. <br /><a href="https://github.com/jombastic/pig-dice">Github page</a>
+    </footer>
 
     <script src="js/jquery-3.3.1.js"></script>
     <script src="js/scripts.js"></script>

@@ -29,11 +29,13 @@ function showDice(numberOfDice) {
   if (numberOfDice === '1') {
     $("p.die1").html("<img src='img/dice/Dice" + die1 +
     ".png' alt='number" + die1 + "' />");
+    $("img").removeClass().addClass("center-image");
   } else if (numberOfDice === '2') {
     $("p.die1").html("<img src='img/dice/Dice" + die1 +
     ".png' alt='number" + die1 + "' />");
     $("p.die2").html("<img src='img/dice/Dice" + die2 +
     ".png' alt='number" + die1 + "' />");
+    $("img").addClass("img-responsive");
   }
 };
 
@@ -160,6 +162,21 @@ var mode;
 
 //user interface logic
 $(function() {
+  $("label.choose-dice").click(function() {
+    $("label.choose-dice").removeClass("label-underline");
+    $(this).addClass("label-underline");
+  });
+  $("label.computer-player").click(function() {
+    $("label.computer-player").removeClass("label-underline");
+    $(this).addClass("label-underline");
+  });
+  $("label.easy-hard").click(function() {
+    $("label.easy-hard").removeClass("label-underline");
+    $(this).addClass("label-underline");
+  });
+
+  $(".no_bullet li").addClass("pig");
+
   $("input:radio[name=player-type]").click(function() {
     if ($("input:radio[name=player-type]:checked").val() === 'computer') {
       $("#mode").show();
@@ -196,8 +213,13 @@ $(function() {
       players.push(player1, player2);
     }
 
-    if (numberOfDice === '2') {
-      $(".die2").show();
+    if (numberOfDice === '1') {
+      $("p.die1").parent().removeClass().addClass("col-md-4");
+      $("p.die1").find("img").removeClass().addClass("center-image");
+      $("#one-die-rules").show();
+    } else if (numberOfDice === '2') {
+      $("p.die2").show();
+      $("#two-die-rules").show();
     }
   });
 
@@ -222,7 +244,6 @@ $(function() {
       }
     } else if (numberOfDice === '2') {
       if ((die1 === 1) && (die2 === 1)) {
-        alert("You scored double 1, which means YOU LOOSE EVERYTHING!");
         players[i].resetPlayer();
         $(".player" + id + "-score").text(players[i].score);
         $(".player" + id + "-turn-total").text(players[i].turnTotal);
@@ -245,7 +266,6 @@ $(function() {
         players[i].turnTotal += diceSum;
         $(".player" + id + "-turn-total").text(players[i].turnTotal);
         $("#player" + id).find("button.hold").prop("disabled", true);
-        alert("You scored a double! Now you must roll again.");
       } else {
         players[i].turnTotal += diceSum;
         $(".player" + id + "-turn-total").text(players[i].turnTotal);

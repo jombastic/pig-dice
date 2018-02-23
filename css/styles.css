@@ -1,5 +1,174 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  /* Avoid the IE 10-11 `min-height` bug. */
+  height: 100vh;
+  margin: 0;
+  background-color: #FFFAFC;
+  color: #fd9ab6;
+  font-family: 'Piedra', cursive;
+  font-size: 3em;
+}
+
+.container {
+  /* Prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size. */
+  flex: 1 0 auto;
+  padding: 20px;
+  position: relative;
+}
+
+.container::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: url(../img/pig.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: auto 50%;
+  background-attachment: fixed;
+  width: 100%;
+  height: 100%;
+  opacity: 0.1;
+  /* For IE8 and earlier */
+  filter: alpha(opacity=10);
+  z-index: -1;
+}
+
+.footer {
+  /* Prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size. */
+  flex-shrink: 0;
+  padding: 20px;
+}
+
+footer {
+  text-align: center;
+  background: #facfd9;
+  color: 	#63c8c4;
+}
+
+.page-header {
+  margin-bottom: 100px;
+  font-size: 1.7em;
+  color: #11d7d8;
+  text-shadow: 8px 4px 1px rgba(255, 154, 182, 1);
+}
+
+.page-header small {
+  color: #fd9ab6;
+  font-size: 0.7em;
+  text-shadow: none;
+}
+
+.page-header,
+.page-header small {
+  font-family: 'Fredericka the Great', cursive;
+}
+
+.center-image {
+  display: block;
+  width: 45%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #game,
 #mode,
 .die2 {
   display: none;
+}
+
+input[type="radio"] {
+  visibility: hidden;
+  vertical-align: middle;
+}
+
+input[type="text"] {
+  height: 50px;
+  font-size: 35px;
+  color: #aae2df;
+  text-align: center;
+}
+
+.radio-inline,
+.player1-name,
+.player2-name {
+  color: #11d7d8;
+}
+
+.label-underline {
+  text-decoration: underline;
+}
+
+#play-button,
+.roll {
+  background-color: #63c8c4;
+  color: #ffffff;
+}
+
+#play-button {
+  margin-top: 100px;
+  width: 80%;
+  height: 50px;
+  font-size: 30px;
+}
+
+#play-button:hover,
+.roll:hover {
+  background-color: #11d7d8;
+  color: #000000;
+}
+
+.hold {
+  background-color: #fd9ab6;
+  color: #ffffff;
+}
+
+.hold:hover {
+  background-color: #facfd9;
+  color: #000000;
+}
+
+.btn {
+  width: 100px;
+  height: 50px;
+  font-size: 20px;
+}
+
+#reset-game,
+#restart-game {
+  width: 150px;
+  height: 50px;
+}
+
+#one-die-rules,
+#two-dice-rules {
+  display: none;
+  font-size: 25px;
+  margin-top: 50px;
+  background: rgb(170,226,223); /* Fallback for older browsers without RGBA-support */
+  background: rgba(170,226,223, 0.5);
+}
+
+ul.no_bullet {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pig {
+  background: url('../img/pig-bullet.png') no-repeat left top;
+  background-size: 30px 30px;
+  height: 54px;
+  padding-left: 44px;
+  padding-top: 0  px;
 }
