@@ -173,6 +173,7 @@ function setGame(player1Name, player2Name, playerType) {
     $("form#player-entry").hide();
     $("#game").show();
     $("#player2").find("button").prop("disabled", true);
+    $("#player2").find("button").hide();
     displayDice();
   } else if (player1Name && player2Name && (playerType === 'player')) {
     player1 = new Player(player1Name);

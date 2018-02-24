@@ -25,7 +25,11 @@ A webpage created with HTML, CSS and JavaScript where the user can play a game o
 * To download the code click **clone or download** button on Github or enter the command "git clone https://github.com/jombastic/pig-dice" in your shell
 
 ## Known Bugs
-* No known bugs at this time.
+
+* When playing vs Computer:
+  * When the computer finishes rolling normally without breaking the process, its score is not showed at the moment, but afterwards when it rolls a second time.
+  * During the time the computer rolls, instead for the user's **roll** and **hold** buttons to be disabled, they are usable.
+  * When the user rolls a 1 in either case, it is so fast that it's not even visible and the computer rolls immediately. 
 
 ## Technologies Used
 
