@@ -92,46 +92,50 @@ function vsComputer() {
     counter = 5;
   }
   for (var i = 0; i < counter; i++) {
-    rollDice(numberOfDice);
-    showDice(numberOfDice);
-    if (numberOfDice === '1') {
-      if (die1 === 1) {
-        players[1].turnTotal = 0;
-        $(".player2-turn-total").text(players[1].turnTotal);
-        disablePlayer2();
-        break;
-      } else {
-        players[1].turnTotal += die1;
-        $(".player2-turn-total").text(players[1].turnTotal);
-        if ((difficulty === 'hard') && (players[1].turnTotal >= 15)) {
-          break;
+    (function(i) {
+      setTimeout(function() {
+        rollDice(numberOfDice);
+        showDice(numberOfDice);
+        if (numberOfDice === '1') {
+          if (die1 === 1) {
+            players[1].turnTotal = 0;
+            $(".player2-turn-total").text(players[1].turnTotal);
+            disablePlayer2();
+            break;
+          } else {
+            players[1].turnTotal += die1;
+            $(".player2-turn-total").text(players[1].turnTotal);
+            if ((difficulty === 'hard') && (players[1].turnTotal >= 15)) {
+              break;
+            }
+          }
+        } else if (numberOfDice === '2') {
+          if ((die1 === 1) && (die2 === 1)) {
+            players[1].resetPlayer();
+            $(".player2-score").text(players[1].score);
+            $(".player2-turn-total").text(players[1].turnTotal);
+            disablePlayer2();
+            break;
+          } else if ((die1 === 1) || (die2 === 1)) {
+            players[1].turnTotal = 0;
+            $(".player2-turn-total").text(players[1].turnTotal);
+            disablePlayer2();
+            break;
+          } else if (die1 === die2) {
+            players[1].turnTotal += diceSum;
+            $(".player2-turn-total").text(players[1].turnTotal);
+            i = 0;
+          } else {
+            players[1].turnTotal += diceSum;
+            $(".player2-turn-total").text(players[1].turnTotal);
+            $("#player2").find("button.hold").prop("disabled", false);
+            if ((difficulty === 'hard') && (players[1].turnTotal >= 20)) {
+              break;
+            }
+          }
         }
-      }
-    } else if (numberOfDice === '2') {
-      if ((die1 === 1) && (die2 === 1)) {
-        players[1].resetPlayer();
-        $(".player2-score").text(players[1].score);
-        $(".player2-turn-total").text(players[1].turnTotal);
-        disablePlayer2();
-        break;
-      } else if ((die1 === 1) || (die2 === 1)) {
-        players[1].turnTotal = 0;
-        $(".player2-turn-total").text(players[1].turnTotal);
-        disablePlayer2();
-        break;
-      } else if (die1 === die2) {
-        players[1].turnTotal += diceSum;
-        $(".player2-turn-total").text(players[1].turnTotal);
-        i = 0;
-      } else {
-        players[1].turnTotal += diceSum;
-        $(".player2-turn-total").text(players[1].turnTotal);
-        $("#player2").find("button.hold").prop("disabled", false);
-        if ((difficulty === 'hard') && (players[1].turnTotal >= 20)) {
-          break;
-        }
-      }
-    }
+      }, 2000 * i);
+    })(i);
   }
   $(".player2-score").text(players[1].totalScore());
   players[1].turnTotal = 0;
@@ -140,12 +144,43 @@ function vsComputer() {
   endGame();
 };
 
-function startGame(player1Name) {
-  player1 = new Player(player1Name);
-  $(".player1-name").text(player1.name);
-  $("form#player-entry").hide();
-  $("#game").show();
-  $("#player2").find("button").prop("disabled", true);
+function showDice() {
+  if (numberOfDice === '1') {
+    $("p.die1").parent().removeClass().addClass("col-md-4");
+    $("p.die1").find("img").removeClass().addClass("center-image");
+    $("#one-die-rules").show();
+  } else if (numberOfDice === '2') {
+    $("p.die2").show();
+    $("#two-dice-rules").show();
+  }
+};
+
+function setGame(player1Name, player2Name, playerType) {
+  if (!player1Name && (playerType === 'computer')) {
+    alert("Please enter player 1 name!");
+  } else if (!player1Name || !player2Name && (playerType === 'player')) {
+    alert("Please enter the players names!");
+  } else if (player1Name && (playerType === 'computer')) {
+    player1 = new Player(player1Name);
+    $(".player1-name").text(player1.name);
+    player2 = new Player('Computer');
+    $(".player2-name").text(player2.name);
+    players.push(player1, player2);
+    $("form#player-entry").hide();
+    $("#game").show();
+    $("#player2").find("button").prop("disabled", true);
+    showDice();
+  } else if (player1Name && player2Name && (playerType === 'player')) {
+    player1 = new Player(player1Name);
+    $(".player1-name").text(player1.name);
+    player2 = new Player(player2Name);
+    $(".player2-name").text(player2.name);
+    players.push(player1, player2);
+    $("form#player-entry").hide();
+    $("#game").show();
+    $("#player2").find("button").prop("disabled", true);
+    showDice();
+  }
 };
 
 var player1;
@@ -197,30 +232,7 @@ $(function() {
     numberOfDice = $("input:radio[name=number-of-dice]:checked").val();
     difficulty = $("input:radio[name=difficulty]:checked").val();
 
-    if (!player1Name && (playerType === 'computer')) {
-      alert("Please enter player 1 name!");
-    } else if (!player1Name || !player2Name && (playerType === 'player')) {
-      alert("Please enter the players names!");
-    } else if (playerType === 'computer') {
-      startGame(player1Name);
-      player2 = new Player('Computer');
-      $(".player2-name").text(player2.name);
-      players.push(player1, player2);
-    } else if (playerType === 'player') {
-      startGame(player1Name);
-      player2 = new Player(player2Name);
-      $(".player2-name").text(player2.name);
-      players.push(player1, player2);
-    }
-
-    if (numberOfDice === '1') {
-      $("p.die1").parent().removeClass().addClass("col-md-4");
-      $("p.die1").find("img").removeClass().addClass("center-image");
-      $("#one-die-rules").show();
-    } else if (numberOfDice === '2') {
-      $("p.die2").show();
-      $("#two-dice-rules").show();
-    }
+    setGame(player1Name, player2Name, playerType);
   });
 
   $("button.roll").click(function(event) {

@@ -159,16 +159,21 @@ input[type="text"] {
   background: rgba(170,226,223, 0.5);
 }
 
+#one-die-rules h2,
+#two-dice-rules h2 {
+  margin-bottom: 30px;
+}
+
 ul.no_bullet {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-.pig {
+li.pig {
   background: url('../img/pig-bullet.png') no-repeat left top;
   background-size: 30px 30px;
-  height: 54px;
+  height: auto;
   padding-left: 44px;
-  padding-top: 0  px;
+  margin-bottom: 25px;
 }
